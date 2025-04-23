@@ -34,6 +34,11 @@
                 <p>{{ users.email }}</p>
                 <p>{{ users.createdAt }}</p>
                 <p>{{ users._id }}</p>
+
+                <div class="upDel">
+                    <button @click="updateDet(users._id)">Update</button>
+                    <button @click="deleteDet(users._id)">Delete</button>
+                </div>
             </div>
         </div>
     </div>
@@ -82,6 +87,24 @@
         // console.log(fetchedUSer)
     }
 
+    // UPDATE A USER
+    const updateDet = async (id) => {
+        const updated = await $fetch(`/api/users/${id}`, {
+            method: 'PUT',
+            body: {
+                name: 'Agbebi Bidemi'
+            }
+        })
+        console.log(updated)
+        await fetchAll()
+    }
+
+
+    // DELETE A USER
+    const deleteDet = (id) => {
+        console.log(id)
+    }
+
 
     // ONMOUNTED
     onMounted(() => {
@@ -99,5 +122,9 @@
         justify-content: center;
         align-items: center;
         border-radius: 30px;
+    }
+    .upDel{
+        display: flex;
+        gap: 10px;
     }
 </style>
