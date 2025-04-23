@@ -2,12 +2,31 @@
     <div>
         <h1>this is the vue template</h1>
 
+        <!-- SAVE A USER -->
         <div>
+            <h1>Save a user</h1>
             <input type="text" placeholder="name" v-model="nameValue"><br>
             <input type="email" placeholder="email" v-model="emailValue"><br>
             <button @click="sendd">Send</button>
         </div>
+        <!-- SEARCH A USER -->
+        <div>
+            <h1>search a user</h1>
+            <input type="text" placeholder="Input name" v-model="searchName">
+            <button @click="search">search</button>
+        </div>
 
+        <!-- RETURNED SEARCH USERS -->
+         <div>
+            <div v-for="(result, index) in searchedUSer" :key="index">
+                <p>{{ result.name }}</p>
+                <p>{{ result.email }}</p>
+                <p>{{ result.createdAt }}</p>
+                <p>{{ result._id }}</p>
+            </div>
+         </div>
+
+        <!-- ALL USERS -->
         <div>
             <h1>All users</h1>
             <div v-for="(users, index) in allUsers" :key="index" class="perUser">
@@ -24,7 +43,10 @@
     const nameValue = ref('')
     const emailValue = ref('')
     const allUsers = ref([])
+    const searchName = ref('')
+    const searchedUSer = ref([])
 
+    // POST A USER
     const sendd = async () => {
         const namei = nameValue.value
         const emaili = emailValue.value
@@ -44,12 +66,24 @@
         // console.log(created)
     }
 
+
+    // FETCH ALL USERS
     const fetchAll = async() => {
         const allUser = await $fetch('/api/users')
         allUsers.value = allUser
         // console.log(allUser)
     }
 
+
+    // SEARCHING FOR A USER
+    const search = async () => {
+        const fetchedUSer = await $fetch(`/api/users/search?name=${searchName.value}`)
+        searchedUSer.value = fetchedUSer
+        // console.log(fetchedUSer)
+    }
+
+
+    // ONMOUNTED
     onMounted(() => {
         fetchAll()
     })
