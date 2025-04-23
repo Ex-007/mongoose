@@ -95,14 +95,17 @@
                 name: 'Agbebi Bidemi'
             }
         })
-        console.log(updated)
         await fetchAll()
     }
 
 
     // DELETE A USER
-    const deleteDet = (id) => {
-        console.log(id)
+    const deleteDet = async (id) => {
+        const deleted = await $fetch(`/api/users/${id}`, {
+            method: 'DELETE'
+        })
+        await fetchAll()
+        console.log(deleted)
     }
 
 
